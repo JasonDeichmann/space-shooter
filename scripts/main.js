@@ -15,13 +15,13 @@ let ship = {
     m_down: false,
     is_shooting: false,
     can_shoot: true,
-    fire_rate: 10,
+    fire_rate: 500,
     lasers: [],
 };
 ship.y = canvas_h - ship.height;
 
 let enemies = [];
-let enemy_spawn_rate = 100;
+let enemy_spawn_rate = 750;
 
 $(document).ready(function() {
 
@@ -69,8 +69,9 @@ $(document).ready(function() {
     //Fire rate cooldown of the ship
     function fire_rate_cooldown(){
         ship.can_shoot = true;
+        setTimeout(fire_rate_cooldown, ship.fire_rate);
     }
-    setInterval(fire_rate_cooldown, ship.fire_rate);
+    setTimeout(fire_rate_cooldown, ship.fire_rate);
 
     //Spawn enemies
     function spawn_enemy(){
@@ -83,8 +84,9 @@ $(document).ready(function() {
         enemy.x = Math.floor(Math.random() * (canvas_w - enemy.width));
         enemy.y-=enemy.height;
         enemies.push(enemy);
+        setTimeout(spawn_enemy, enemy_spawn_rate);
     }
-    setInterval(spawn_enemy, enemy_spawn_rate);
+    setTimeout(spawn_enemy, enemy_spawn_rate);
 
     //Start animation
     window.requestAnimationFrame(draw);
